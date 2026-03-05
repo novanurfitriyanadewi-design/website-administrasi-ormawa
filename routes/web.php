@@ -8,7 +8,7 @@ Route::get('/', function () {
 
 Route::get('/perkenalan', function () {
 
-    return '<h1>Halo! Nama saya Nova Nurfitriyana Dewi</h1>
+    return '<h1>Halo! Nama saya Nova Nurfitriyana </h1>
 
             <p>NIM: 4124051 | Prodi: Sistem Informasi</p>
 

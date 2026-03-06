@@ -17,4 +17,8 @@ Route::get('/perkenalan', function () {
 });
 Route::get('/badrus-sholeh', function () {
     return "Halo, saya Badrus Sholeh (Kolaborator)";
-});
+});            
+
+Route::get('/bimoadi', function () {
+    return "Halo, saya bimoadi (Kolaborator)";
+}); 

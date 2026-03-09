@@ -22,3 +22,10 @@ Route::get('/badrus-sholeh', function () {
 Route::get('/bimoadi', function () {
     return "Halo, saya bimoadi (Kolaborator)";
 }); 
+
+/* ROUTE NOVA */
+
+Route::get('/tentang', function () {
+    return "<h1>Tentang Sistem Administrasi Ormawa</h1>
+            <p>Website ini dibuat untuk mengelola administrasi organisasi mahasiswa SAINTEK UNIPDU JOMBANG.</p>";
+})->name('tentang.index');

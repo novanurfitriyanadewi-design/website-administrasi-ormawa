@@ -18,8 +18,7 @@ Route::get('/badrus-sholeh', function () {
 });
 
 Route::get('/bimoadi', function () {
-<<<<<<< HEAD
-    return "Halo, saya Bimoadi (Kolaborator)";
+ return "Halo, saya Bimoadi (Kolaborator)";
 });
 
 /* ROUTE PROFIL */

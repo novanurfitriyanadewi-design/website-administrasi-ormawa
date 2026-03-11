@@ -18,7 +18,29 @@ Route::get('/badrus-sholeh', function () {
 });
 
 Route::get('/bimoadi', function () {
+<<<<<<< HEAD
  return "Halo, saya Bimoadi (Kolaborator)";
+=======
+
+    return "Halo, saya Bimoadi (Kolaborator)";
+>>>>>>> c4fae4220c729d688ad05e30fecd3aedee916d5c
+});
+
+/* ROUTE ORMAWA */
+
+Route::get('/bem', function () {
+    return "<h1>Badan Eksekutif Mahasiswa (BEM)</h1>
+            <p>BEM adalah organisasi mahasiswa yang menjalankan program kerja di tingkat fakultas atau universitas.</p>";
+});
+
+Route::get('/dpm', function () {
+    return "<h1>Dewan Perwakilan Mahasiswa (DPM)</h1>
+            <p>DPM bertugas mengawasi kinerja BEM dan mewakili aspirasi mahasiswa.</p>";
+});
+
+Route::get('/himasi', function () {
+    return "<h1>Himpunan Mahasiswa Sistem Informasi (HIMA)</h1>
+            <p>HIMASI adalah organisasi mahasiswa yang berada di tingkat program studi sSistem Informasi.</p>";
 });
 
 /* ROUTE PROFIL */
@@ -26,14 +48,3 @@ Route::get('/bimoadi', function () {
 Route::get('/profil', [ProfilController::class, 'index']);
 
 Route::get('/profil/{id}', [ProfilController::class, 'show']);
-=======
-    return "Halo, saya bimoadi (Kolaborator)";
-}); 
-
-/* ROUTE NOVA */
-
-Route::get('/tentang', function () {
-    return "<h1>Tentang Sistem Administrasi Ormawa</h1>
-            <p>Website ini dibuat untuk mengelola administrasi organisasi mahasiswa SAINTEK UNIPDU JOMBANG.</p>";
-})->name('tentang.index');
->>>>>>> a17358f (Menambahkan route tentang dan controller profil)

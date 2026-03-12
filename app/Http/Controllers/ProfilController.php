@@ -62,7 +62,7 @@ class ProfilController extends Controller
             ],
             [
                 'nama' => 'Moh. Badrus Sholeh',
-                'nim' => '4124053',
+                'nim' => '4124008',
                 'jabatan' => 'Anggota DPM SAINTEK',
                 'prodi' => 'Sistem Informasi',
                 'semester' => '4',
@@ -77,7 +77,7 @@ class ProfilController extends Controller
     {
         return "Profil pengurus dengan NIM: " . $nim;
     }
-}
+
 
     
 }

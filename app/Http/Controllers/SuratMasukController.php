@@ -4,63 +4,119 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\SuratMasuk;
+use App\Models\JenisSurat;
 
 class SuratMasukController extends Controller
 {
-    public function index()
+    // =========================
+    // INDEX + SEARCH
+    // =========================
+    public function index(Request $request)
     {
-        $data = SuratMasuk::latest()->get();
+        $q = $request->q;
+
+        $data = SuratMasuk::with('jenisSurat')
+            ->when($q, function ($query) use ($q) {
+                $query->where('nomor_surat', 'like', "%$q%")
+                      ->orWhere('pengirim', 'like', "%$q%")
+                      ->orWhere('perihal', 'like', "%$q%")
+                      ->orWhereHas('jenisSurat', function ($sub) use ($q) {
+                          $sub->where('nama', 'like', "%$q%");
+                      });
+            })
+            ->latest()
+            ->paginate(6)
+            ->withQueryString();
+
         return view('surat.masuk.index', compact('data'));
     }
 
+    // =========================
+    // CREATE
+    // =========================
     public function create()
     {
-        return view('surat.masuk.create');
+        $jenis = JenisSurat::all();
+        return view('surat.masuk.create', compact('jenis'));
     }
 
+    // =========================
+    // STORE
+    // =========================
     public function store(Request $request)
     {
-        $request->validate([
-            'nomor_surat' => 'required',
-            'tanggal' => 'required|date',
-            'pengirim' => 'required',
-            'perihal' => 'required',
+        $validated = $request->validate([
+            'jenis_surat_id' => 'required|exists:jenis_surats,id',
+            'nomor_surat'    => 'required|string|max:255',
+            'perihal'        => 'required|string|max:255',
+            'pengirim'       => 'required|string|max:255',
+            'tanggal_surat'  => 'required|date',
+            'file'           => 'nullable|file|mimes:pdf,jpg,png,doc,docx'
         ]);
 
-        SuratMasuk::create($request->all());
+        if ($request->hasFile('file')) {
+            $validated['file'] = $request->file('file')
+                ->store('surat-masuk', 'public');
+        }
 
-        return redirect()->route('surat-masuk.index')
-            ->with('success', 'Berhasil tambah');
+        SuratMasuk::create($validated);
+
+        return redirect()
+            ->route('surat-masuk.index')
+            ->with('success', 'Data berhasil ditambahkan');
     }
 
+    // =========================
+    // EDIT
+    // =========================
     public function edit($id)
     {
-        $data = SuratMasuk::findOrFail($id);
-        return view('surat.masuk.edit', compact('data'));
+        $suratMasuk = SuratMasuk::findOrFail($id);
+        $jenis = JenisSurat::all();
+
+        return view('surat.masuk.edit', compact('suratMasuk', 'jenis'));
     }
 
+    // =========================
+    // UPDATE
+    // =========================
     public function update(Request $request, $id)
     {
-        $data = SuratMasuk::findOrFail($id);
-
-        $request->validate([
-            'nomor_surat' => 'required',
-            'tanggal' => 'required|date',
-            'pengirim' => 'required',
-            'perihal' => 'required',
+        $validated = $request->validate([
+            'jenis_surat_id' => 'required|exists:jenis_surats,id',
+            'nomor_surat'    => 'required|string|max:255',
+            'perihal'        => 'required|string|max:255',
+            'pengirim'       => 'required|string|max:255',
+            'tanggal_surat'  => 'required|date',
+            'file'           => 'nullable|file|mimes:pdf,jpg,png,doc,docx'
         ]);
 
-        $data->update($request->all());
+        $surat = SuratMasuk::findOrFail($id);
 
-        return redirect()->route('surat-masuk.index')
-            ->with('success', 'Berhasil update');
+        if ($request->hasFile('file')) {
+            $validated['file'] = $request->file('file')
+                ->store('surat-masuk', 'public');
+        } else {
+            $validated['file'] = $surat->file;
+        }
+
+        $surat->update($validated);
+
+        return redirect()
+            ->route('surat-masuk.index')
+            ->with('success', 'Data berhasil diupdate');
     }
 
+    // =========================
+    // DELETE
+    // =========================
     public function destroy($id)
     {
-        SuratMasuk::findOrFail($id)->delete();
+        $surat = SuratMasuk::findOrFail($id);
+        $surat->delete();
 
-        return redirect()->route('surat-masuk.index')
-            ->with('success', 'Berhasil hapus');
+        return redirect()
+            ->route('surat-masuk.index')
+            ->with('success', 'Data berhasil dihapus');
     }
 }

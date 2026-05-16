@@ -8,8 +8,7 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('surat_masuks', function (Blueprint $table) {
-
+        Schema::create('surat_keluars', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('jenis_surat_id')
@@ -17,22 +16,17 @@ return new class extends Migration
                   ->onDelete('cascade');
 
             $table->string('nomor_surat');
-
             $table->string('perihal');
-
-            $table->string('pengirim');
-
+            $table->string('kepada');
             $table->date('tanggal_surat');
-
             $table->string('file')->nullable();
 
             $table->timestamps();
-
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('surat_masuks');
+        Schema::dropIfExists('surat_keluars');
     }
 };

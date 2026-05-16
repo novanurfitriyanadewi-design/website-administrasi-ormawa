@@ -9,18 +9,24 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+   public function up(): void
 {
-    Schema::create('surat_keluar', function (Blueprint $table) {
+    Schema::create('surat_keluars', function (Blueprint $table) {
         $table->id();
+
+        $table->foreignId('jenis_surat_id')
+              ->constrained('jenis_surats')
+              ->onDelete('cascade');
+
         $table->string('nomor_surat');
-        $table->string('jenis');
-        $table->integer('kode'); // gabungan A/B
+        $table->string('perihal');
         $table->string('kepada');
+        $table->date('tanggal_surat');
+        $table->string('file')->nullable();
+
         $table->timestamps();
     });
 }
-
     /**
      * Reverse the migrations.
      */

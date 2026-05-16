@@ -6,12 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class SuratMasuk extends Model
 {
-    protected $table = 'surat_masuk';
-
     protected $fillable = [
+        'jenis_surat_id',
         'nomor_surat',
-        'tanggal',
+        'perihal',
         'pengirim',
-        'perihal'
+        'tanggal_surat',
+        'file'
     ];
+
+    public function jenisSurat()
+    {
+        return $this->belongsTo(JenisSurat::class);
+    }
 }

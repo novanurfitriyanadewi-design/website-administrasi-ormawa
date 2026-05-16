@@ -20,29 +20,57 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('surat-masuk.store') }}"
+    {{-- FORM --}}
+    <form method="POST"
+          action="{{ route('surat-masuk.store') }}"
+          enctype="multipart/form-data"
           class="bg-white rounded-xl shadow-md p-8 space-y-6">
+
         @csrf
+
+        {{-- JENIS SURAT --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">
+                Jenis Surat
+            </label>
+
+            <select name="jenis_surat_id"
+                    class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+
+                <option value="">-- Pilih Jenis Surat --</option>
+
+                @foreach($jenis as $item)
+                    <option value="{{ $item->id }}">
+                        {{ $item->nama }}
+                    </option>
+                @endforeach
+
+            </select>
+        </div>
 
         {{-- NOMOR SURAT --}}
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 Nomor Surat
             </label>
-            <input type="text" name="nomor_surat"
+
+            <input type="text"
+                   name="nomor_surat"
                    value="{{ old('nomor_surat') }}"
-                   class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500"
+                   class="w-full border rounded-lg px-4 py-2"
                    placeholder="Contoh: 001/SM/V/2026">
         </div>
 
-        {{-- TANGGAL --}}
+        {{-- TANGGAL SURAT (FIX) --}}
         <div>
             <label class="block text-sm font-medium text-gray-700 mb-1">
-                Tanggal
+                Tanggal Surat
             </label>
-            <input type="date" name="tanggal"
-                   value="{{ old('tanggal') }}"
-                   class="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500">
+
+            <input type="date"
+                   name="tanggal_surat"
+                   value="{{ old('tanggal_surat') }}"
+                   class="w-full border rounded-lg px-4 py-2">
         </div>
 
         {{-- PENGIRIM --}}
@@ -50,7 +78,9 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 Pengirim
             </label>
-            <input type="text" name="pengirim"
+
+            <input type="text"
+                   name="pengirim"
                    value="{{ old('pengirim') }}"
                    class="w-full border rounded-lg px-4 py-2"
                    placeholder="Nama instansi / orang">
@@ -61,15 +91,28 @@
             <label class="block text-sm font-medium text-gray-700 mb-1">
                 Perihal
             </label>
+
             <textarea name="perihal"
                       class="w-full border rounded-lg px-4 py-2"
                       placeholder="Isi perihal surat...">{{ old('perihal') }}</textarea>
         </div>
 
+        {{-- UPLOAD FILE --}}
+        <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+                Upload File Surat
+            </label>
+
+            <input type="file"
+                   name="file"
+                   class="w-full border border-gray-300 rounded-lg px-4 py-3">
+        </div>
+
         {{-- BUTTON --}}
         <div class="flex justify-between">
+
             <a href="{{ route('surat-masuk.index') }}"
-               class="px-4 py-2 bg-gray-400 text-white rounded">
+               class="px-4 py-2 bg-gray-400 hover:bg-gray-500 text-white rounded">
                 Kembali
             </a>
 
@@ -77,8 +120,10 @@
                     class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded">
                 Simpan
             </button>
+
         </div>
 
     </form>
+
 </div>
 @endsection

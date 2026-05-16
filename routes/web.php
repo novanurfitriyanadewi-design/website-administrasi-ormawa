@@ -6,6 +6,7 @@ use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\SuratKeluarController;
+use App\Http\Controllers\LaporanController;
 
 /* HOME  */
 Route::get('/', function () {
@@ -57,3 +58,6 @@ Route::get('/detail/{slug}', [KatalogController::class, 'show'])
 /* SURAT */
 Route::resource('surat-masuk', SuratMasukController::class);
 Route::resource('surat-keluar', SuratKeluarController::class);
+
+/* LAPORAN */
+Route::get('/laporan', [LaporanController::class, 'perKategori'])->name('laporan');

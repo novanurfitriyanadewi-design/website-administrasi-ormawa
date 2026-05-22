@@ -8,9 +8,8 @@ use App\Models\JenisSurat;
 
 class SuratMasukController extends Controller
 {
-    // =========================
-    // INDEX + SEARCH
-    // =========================
+ 
+    // INDEX + SEARCH //
     public function index(Request $request)
     {
         $q = $request->q;
@@ -31,18 +30,16 @@ class SuratMasukController extends Controller
         return view('surat.masuk.index', compact('data'));
     }
 
-    // =========================
-    // CREATE
-    // =========================
-    public function create()
+   
+    // CREATE //
+     public function create()
     {
         $jenis = JenisSurat::all();
         return view('surat.masuk.create', compact('jenis'));
     }
 
-    // =========================
-    // STORE
-    // =========================
+   
+    // STORE //
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -66,9 +63,8 @@ class SuratMasukController extends Controller
             ->with('success', 'Data berhasil ditambahkan');
     }
 
-    // =========================
-    // EDIT
-    // =========================
+  
+    // EDIT //
     public function edit($id)
     {
         $suratMasuk = SuratMasuk::findOrFail($id);
@@ -77,9 +73,8 @@ class SuratMasukController extends Controller
         return view('surat.masuk.edit', compact('suratMasuk', 'jenis'));
     }
 
-    // =========================
-    // UPDATE
-    // =========================
+    
+    // UPDATE //
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
@@ -107,9 +102,8 @@ class SuratMasukController extends Controller
             ->with('success', 'Data berhasil diupdate');
     }
 
-    // =========================
-    // DELETE
-    // =========================
+    
+    // DELETE //
     public function destroy($id)
     {
         $surat = SuratMasuk::findOrFail($id);

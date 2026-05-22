@@ -49,8 +49,8 @@
             ],
         ] as $item)
 
-        <a href="{{ route('program.show', strtolower($item['nama'])) }}"
-           class="bg-sky-700 text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300 group">
+        <a href="{{ route('program.' . strtolower($item['nama'])) }}"
+   class="bg-sky-700 text-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transform hover:-translate-y-2 transition duration-300 group">
 
             <h2 class="text-2xl font-bold mb-2 group-hover:underline">
                 {{ $item['nama'] }}

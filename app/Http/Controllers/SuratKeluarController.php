@@ -8,9 +8,7 @@ use App\Models\JenisSurat;
 
 class SuratKeluarController extends Controller
 {
-    /* =================================
-       INDEX / LIST DATA
-    ================================= */
+    /* INDEX / LIST DATA */
     public function index(Request $request)
     {
         $q = $request->q;
@@ -27,9 +25,7 @@ class SuratKeluarController extends Controller
         return view('surat.keluar.index', compact('data'));
     }
 
-    /* =================================
-       CREATE FORM
-    ================================= */
+    /*CREATE FORM */
     public function create()
     {
         $jenis = JenisSurat::all();
@@ -37,9 +33,7 @@ class SuratKeluarController extends Controller
         return view('surat.keluar.create', compact('jenis'));
     }
 
-    /* =================================
-       STORE DATA
-    ================================= */
+    /* STORE DATA */
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -63,9 +57,7 @@ class SuratKeluarController extends Controller
             ->with('success', 'Data surat keluar berhasil ditambahkan');
     }
 
-    /* =================================
-       EDIT FORM
-    ================================= */
+    /* EDIT FORM */
     public function edit($id)
     {
         $suratKeluar = SuratKeluar::findOrFail($id);
@@ -74,9 +66,7 @@ class SuratKeluarController extends Controller
         return view('surat.keluar.edit', compact('suratKeluar', 'jenis'));
     }
 
-    /* =================================
-       UPDATE DATA
-    ================================= */
+    /* UPDATE DATA */
     public function update(Request $request, $id)
     {
         $suratKeluar = SuratKeluar::findOrFail($id);
@@ -105,9 +95,7 @@ class SuratKeluarController extends Controller
             ->with('success', 'Data surat keluar berhasil diupdate');
     }
 
-    /* =================================
-       DELETE DATA
-    ================================= */
+    /* DELETE DATA */
     public function destroy($id)
     {
         $suratKeluar = SuratKeluar::findOrFail($id);

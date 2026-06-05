@@ -8,7 +8,7 @@ use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DpmController;
-
+use App\Http\Controllers\DashboardController;
 
 /* HOME  */
 Route::get('/', function () {
@@ -84,5 +84,14 @@ Route::resource('surat-masuk', SuratMasukController::class);
 Route::resource('surat-keluar', SuratKeluarController::class);
 
 /* LAPORAN */
-Route::get('/laporan', [LaporanController::class, 'perKategori'])->name('laporan');
+Route::get('/laporan', [LaporanController::class, 'perKategori'])
+    ->name('laporan');
 
+Route::middleware(['auth'])->group(function () {
+
+    Route::get('/dashboard', [LaporanController::class, 'perKategori'])
+        ->name('dashboard');
+
+});
+
+require __DIR__.'/auth.php';

@@ -202,9 +202,9 @@ Route::get('/cookie-test', function () {
     cookie()->queue('test_cookie', 'ok', 60);
     return 'cookie dibuat';
 });
- Route::get('/cookie-test', function () {
-    cookie()->queue('test_cookie', 'ok', 60);
-    return 'cookie dibuat';
+ Route::get('/session-test', function () {
+    session(['tes' => 'berhasil']);
+    return session('tes');
 });
 /*
 |--------------------------------------------------------------------------

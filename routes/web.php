@@ -217,6 +217,14 @@ Route::get('/cookie-test', function () {
 
     return 'cookie dibuat';
 });
+
+Route::get('/env-test', function () {
+    return [
+        'APP_KEY' => env('APP_KEY') ? 'ADA' : 'KOSONG',
+        'SESSION_DRIVER' => env('SESSION_DRIVER'),
+        'APP_URL' => env('APP_URL'),
+    ];
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

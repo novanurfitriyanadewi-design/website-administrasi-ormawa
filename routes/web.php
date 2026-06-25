@@ -239,6 +239,13 @@ Route::get('/cek-login', function () {
     ]);
 
 });
+
+Route::get('/cookie-test', function () {
+    return response()->json([
+        'session_id' => session()->getId(),
+        'auth' => auth()->check(),
+    ]);
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

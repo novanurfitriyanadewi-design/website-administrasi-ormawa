@@ -206,6 +206,17 @@ Route::get('/session-test', function () {
 Route::get('/session-read', function () {
     return session('test', 'gagal');
 });
+
+Route::get('/cookie-test', function () {
+
+    Cookie::queue(
+        'nova_test',
+        '12345',
+        60
+    );
+
+    return 'cookie dibuat';
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

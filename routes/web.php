@@ -202,7 +202,10 @@ Route::get('/cookie-test', function () {
     cookie()->queue('test_cookie', 'ok', 60);
     return 'cookie dibuat';
 });
-
+ Route::get('/cookie-test', function () {
+    cookie()->queue('test_cookie', 'ok', 60);
+    return 'cookie dibuat';
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

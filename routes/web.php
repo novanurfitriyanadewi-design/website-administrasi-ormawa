@@ -205,6 +205,16 @@ Route::get('/debug-env', function () {
         'APP_URL' => env('APP_URL'),
     ]);
 });
+
+Route::get('/session-test', function () {
+    session(['test' => 'OK']);
+
+    return [
+        'session_id' => session()->getId(),
+        'test' => session('test'),
+        'auth' => auth()->check(),
+    ];
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

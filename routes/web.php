@@ -198,6 +198,10 @@ Route::middleware(['auth'])->group(function () {
         ->name('kandidat.reject');
 });
 
+Route::get('/cookie-test', function () {
+    cookie()->queue('test_cookie', 'ok', 60);
+    return 'cookie dibuat';
+});
 
 /*
 |--------------------------------------------------------------------------

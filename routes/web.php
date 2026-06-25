@@ -254,6 +254,13 @@ Route::get('/login-force', function () {
     return redirect('/cek-login');
 
 });
+
+Route::get('/env-test', function () {
+    return [
+        'APP_KEY' => config('app.key'),
+        'SESSION_DRIVER' => config('session.driver'),
+    ];
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

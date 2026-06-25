@@ -10,7 +10,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DpmController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\KandidatController;
-
+use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | HOME
@@ -213,6 +213,16 @@ Route::get('/session-test', function () {
         'session_id' => session()->getId(),
         'test' => session('test'),
         'auth' => auth()->check(),
+    ];
+});
+
+Route::get('/auth-test', function () {
+
+    Auth::loginUsingId(2);
+
+    return [
+        'auth' => Auth::check(),
+        'user' => Auth::user(),
     ];
 });
 /*

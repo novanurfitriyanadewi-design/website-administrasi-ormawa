@@ -14,7 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         // 🔥 DISABLE CSRF KHUSUS LOGIN (UNTUK TEST 419)
         $middleware->validateCsrfTokens(except: [
-            '/login',
+            //
         ]);
 
     })

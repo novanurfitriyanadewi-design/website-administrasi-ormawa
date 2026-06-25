@@ -229,6 +229,16 @@ Route::get('/auth-test', function () {
 Route::middleware(['auth'])->group(function () {
     Route::resource('proposal', ProposalController::class);
 });
+
+Route::get('/cek-login', function () {
+
+    return response()->json([
+        'auth' => auth()->check(),
+        'user' => auth()->user(),
+        'session_id' => session()->getId(),
+    ]);
+
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

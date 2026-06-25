@@ -11,48 +11,20 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Tampilkan halaman login.
-     */
     public function create(): View
     {
         return view('auth.login');
     }
 
-    /**
-     * Proses login user.
-     */
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
 
         $request->session()->regenerate();
 
-        $user = Auth::user();
-
-        if (! $user) {
-            return redirect()->route('login')
-                ->withErrors([
-                    'email' => 'Login gagal.',
-                ]);
-        }
-
-        switch ($user->role) {
-            case 'dpm':
-                return redirect()->route('dashboard');
-
-            case 'bem':
-            case 'himasi':
-                return redirect()->route('proposal.index');
-
-            default:
-                return redirect('/');
-        }
+        return redirect('/cek-login');
     }
 
-    /**
-     * Logout user.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();

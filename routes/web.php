@@ -225,6 +225,10 @@ Route::get('/auth-test', function () {
         'user' => Auth::user(),
     ];
 });
+
+Route::middleware(['auth'])->group(function () {
+    Route::resource('proposal', ProposalController::class);
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

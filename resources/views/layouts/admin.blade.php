@@ -14,34 +14,59 @@
     <!-- SIDEBAR -->
     <aside class="w-64 bg-sky-800 text-white p-6">
 
-        <h1 class="text-2xl font-bold mb-10">
+        <h1 class="text-2xl font-bold mb-2">
             ORMAWA ADMIN
         </h1>
 
+        <p class="text-sm text-sky-200 mb-8">
+            Login sebagai: {{ auth()->user()->role }}
+        </p>
+
         <nav class="space-y-3">
 
-            <a href="{{ route('laporan') }}"
-               class="block px-4 py-3 rounded-lg hover:bg-sky-700">
-                Dashboard
-            </a>
+            {{-- MENU KHUSUS DPM --}}
+            @if(auth()->user()->role == 'dpm')
 
-            <a href="{{ route('surat-masuk.index') }}"
-               class="block px-4 py-3 rounded-lg hover:bg-sky-700">
-                Surat Masuk
-            </a>
+                <a href="{{ route('dashboard') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                     Dashboard
+                </a>
 
-            <a href="{{ route('surat-keluar.index') }}"
-               class="block px-4 py-3 rounded-lg hover:bg-sky-700">
-                Surat Keluar
-            </a>
+                <a href="{{ route('surat-masuk.index') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                     Surat Masuk
+                </a>
+
+                <a href="{{ route('surat-keluar.index') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                     Surat Keluar
+                </a>
+
+                <a href="{{ route('proposal.index') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                    Pengajuan Proposal
+                </a>
+
+            @endif
 
 
-            
+            {{-- MENU KHUSUS BEM DAN HIMASI --}}
+            @if(in_array(auth()->user()->role, ['bem', 'himasi']))
 
+                <a href="{{ route('proposal.index') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                    Pengajuan Proposal
+                </a>
+
+            @endif
+
+
+            {{-- LOGOUT --}}
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
 
-                <button class="w-full text-left px-4 py-3 rounded-lg hover:bg-red-600">
+                <button type="submit"
+                        class="w-full text-left px-4 py-3 rounded-lg hover:bg-red-600">
                     Logout
                 </button>
             </form>
@@ -52,6 +77,12 @@
 
     <!-- CONTENT -->
     <main class="flex-1 p-10">
+
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
 
         @yield('content')
 

@@ -9,6 +9,7 @@ use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DpmController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProposalController;
 
 /* HOME  */
 Route::get('/', function () {
@@ -93,5 +94,13 @@ Route::middleware(['auth'])->group(function () {
         ->name('dashboard');
 
 });
+
+/* PROPOSAL */
+Route::middleware(['auth'])->group(function () {
+    Route::resource('proposal', ProposalController::class);
+});
+
+Route::put('/proposal/{proposal}/revisi', [ProposalController::class, 'revisi'])
+    ->name('proposal.revisi');
 
 require __DIR__.'/auth.php';

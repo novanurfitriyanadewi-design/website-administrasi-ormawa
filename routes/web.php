@@ -246,6 +246,14 @@ Route::get('/cookie-test', function () {
         'auth' => auth()->check(),
     ]);
 });
+
+Route::get('/login-force', function () {
+
+    Auth::loginUsingId(2);
+
+    return redirect('/cek-login');
+
+});
 /*
 |--------------------------------------------------------------------------
 | AUTH

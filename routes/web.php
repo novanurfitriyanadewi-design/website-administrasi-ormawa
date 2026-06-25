@@ -8,24 +8,41 @@ use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\SuratKeluarController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DpmController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProposalController;
+use App\Http\Controllers\KandidatController;
 
-/* HOME  */
+/*
+|--------------------------------------------------------------------------
+| HOME
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
-    return view('beranda.index'); 
+    return view('beranda.index');
 })->name('home');
 
 
-/* PERKENALAN  */
+/*
+|--------------------------------------------------------------------------
+| PERKENALAN
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/perkenalan', function () {
-    return '<h1>Halo! Nama saya Nova Nurfitriyana</h1>
-            <p>NIM: 4124051 | Prodi: Sistem Informasi</p>
-            <p>Saya siap belajar Laravel! 🚀</p>';
+    return '
+        <h1>Halo! Nama saya Nova Nurfitriyana</h1>
+        <p>NIM: 4124051 | Prodi: Sistem Informasi</p>
+        <p>Saya siap belajar Laravel! 🚀</p>
+    ';
 });
 
 
-/* KOLABORATOR  */
+/*
+|--------------------------------------------------------------------------
+| KOLABORATOR
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/badrus-sholeh', function () {
     return "Halo, saya M. Badrus Sholeh (Kolaborator)";
 });
@@ -35,13 +52,25 @@ Route::get('/bimoadi', function () {
 });
 
 
-/* ORMAWA */
+/*
+|--------------------------------------------------------------------------
+| ORMAWA
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/ormawa', [OrmawaController::class, 'index'])
     ->name('ormawa.index');
+
 Route::get('/ormawa/{nama}', [OrmawaController::class, 'show'])
     ->name('ormawa.show');
 
-    /* HALAMAN INSTITUSI */
+
+/*
+|--------------------------------------------------------------------------
+| HALAMAN ORGANISASI
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/bem', function () {
     return view('ormawa.bem');
 })->name('bem');
@@ -54,16 +83,29 @@ Route::get('/himasi', function () {
     return view('ormawa.himasi');
 })->name('himasi');
 
-/* PROFIL */
+
+/*
+|--------------------------------------------------------------------------
+| PROFIL
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/profil', [ProfilController::class, 'index'])
     ->name('profil.index');
+
 Route::get('/profil/{id}', [ProfilController::class, 'show'])
     ->name('profil.show');
 
-/* PROGRAM */
+
+/*
+|--------------------------------------------------------------------------
+| PROGRAM KERJA
+|--------------------------------------------------------------------------
+*/
+
 Route::view('/program', 'program.index')
     ->name('program');
-    
+
 Route::view('/program/bem', 'program.bem.index')
     ->name('program.bem');
 
@@ -79,28 +121,88 @@ Route::post('/program/dpm/store', [DpmController::class, 'store'])
 Route::view('/program/himasi', 'program.himasi.index')
     ->name('program.himasi');
 
-    
-/* SURAT */
+
+/*
+|--------------------------------------------------------------------------
+| SURAT
+|--------------------------------------------------------------------------
+*/
+
 Route::resource('surat-masuk', SuratMasukController::class);
 Route::resource('surat-keluar', SuratKeluarController::class);
 
-/* LAPORAN */
+
+/*
+|--------------------------------------------------------------------------
+| LAPORAN
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/laporan', [LaporanController::class, 'perKategori'])
     ->name('laporan');
 
+
+/*
+|--------------------------------------------------------------------------
+| AREA LOGIN
+|--------------------------------------------------------------------------
+*/
+
 Route::middleware(['auth'])->group(function () {
+
+    /*
+    |--------------------------------------------------------------------------
+    | DASHBOARD
+    |--------------------------------------------------------------------------
+    */
 
     Route::get('/dashboard', [LaporanController::class, 'perKategori'])
         ->name('dashboard');
 
-});
+    /*
+    |--------------------------------------------------------------------------
+    | PROPOSAL
+    |--------------------------------------------------------------------------
+    */
 
-/* PROPOSAL */
-Route::middleware(['auth'])->group(function () {
     Route::resource('proposal', ProposalController::class);
+
+    Route::put('/proposal/{proposal}/revisi',
+        [ProposalController::class, 'revisi'])
+        ->name('proposal.revisi');
+
+    /*
+    |--------------------------------------------------------------------------
+    | KANDIDAT KETUA BEM / HIMASI
+    |--------------------------------------------------------------------------
+    */
+
+    Route::resource('kandidat', KandidatController::class);
+
+    /*
+    |--------------------------------------------------------------------------
+    | VERIFIKASI KANDIDAT OLEH DPM
+    |--------------------------------------------------------------------------
+    */
+
+    Route::get('/verifikasi-kandidat',
+        [KandidatController::class, 'verifikasi'])
+        ->name('verifikasi.kandidat');
+
+    Route::post('/approve/{id}',
+        [KandidatController::class, 'approve'])
+        ->name('kandidat.approve');
+
+    Route::post('/reject/{id}',
+        [KandidatController::class, 'reject'])
+        ->name('kandidat.reject');
 });
 
-Route::put('/proposal/{proposal}/revisi', [ProposalController::class, 'revisi'])
-    ->name('proposal.revisi');
+
+/*
+|--------------------------------------------------------------------------
+| AUTH
+|--------------------------------------------------------------------------
+*/
 
 require __DIR__.'/auth.php';

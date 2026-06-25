@@ -6,9 +6,6 @@
     <title>Login Admin Ormawa</title>
 
     @vite('resources/css/app.css')
-
-    <!-- Google reCAPTCHA -->
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body class="min-h-screen flex items-center justify-center px-4 relative overflow-hidden bg-gradient-to-br from-blue-900 via-sky-700 to-slate-900">
 
@@ -101,21 +98,6 @@
 
                     <x-input-error :messages="$errors->get('password')" class="mt-1.5" />
                 </div>
-
-                {{-- Google reCAPTCHA --}}
-                <div class="flex justify-center scale-90 sm:scale-100 -mx-2">
-                    <div
-                        class="g-recaptcha"
-                        data-sitekey="{{ env('RECAPTCHA_SITE_KEY') }}"
-                        data-theme="light">
-                    </div>
-                </div>
-
-                @error('captcha')
-                    <p class="text-red-500 text-xs text-center -mt-2">
-                        {{ $message }}
-                    </p>
-                @enderror
 
                 {{-- Remember + Forgot --}}
                 <div class="flex items-center justify-between">

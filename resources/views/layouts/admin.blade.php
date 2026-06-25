@@ -47,6 +47,11 @@
                     Pengajuan Proposal
                 </a>
 
+                <a href="{{ route('verifikasi.kandidat') }}"
+                    class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                    Verifikasi Kandidat
+                </a>
+
             @endif
 
 
@@ -57,6 +62,11 @@
                    class="block px-4 py-3 rounded-lg hover:bg-sky-700">
                     Pengajuan Proposal
                 </a>
+
+                 <a href="{{ route('kandidat.index') }}"
+                    class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                     Calon Ketua
+                 </a>
 
             @endif
 

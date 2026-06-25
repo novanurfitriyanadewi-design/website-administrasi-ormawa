@@ -23,21 +23,33 @@ class AuthenticatedSessionController extends Controller
      * Proses login user.
      */
     public function store(LoginRequest $request): RedirectResponse
-{
-    $request->authenticate();
+    {
+        $request->authenticate();
 
-    $request->session()->regenerate();
+        $request->session()->regenerate();
 
-    if (!Auth::check()) {
-        dd('AUTH GAGAL');
+        $user = Auth::user();
+
+        if (! $user) {
+            return redirect()->route('login')
+                ->withErrors([
+                    'email' => 'Login gagal.',
+                ]);
+        }
+
+        switch ($user->role) {
+            case 'dpm':
+                return redirect()->route('dashboard');
+
+            case 'bem':
+            case 'himasi':
+                return redirect()->route('proposal.index');
+
+            default:
+                return redirect('/');
+        }
     }
 
-    dd(
-        'AUTH BERHASIL',
-        Auth::id(),
-        Auth::user()
-    );
-}
     /**
      * Logout user.
      */

@@ -11,7 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+
+        // 🔥 DISABLE CSRF KHUSUS LOGIN (UNTUK TEST 419)
+        $middleware->validateCsrfTokens(except: [
+            '/login',
+        ]);
+
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

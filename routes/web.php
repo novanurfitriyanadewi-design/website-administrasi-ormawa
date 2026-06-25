@@ -11,9 +11,9 @@ use App\Http\Controllers\DpmController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProposalController;
 
-/* HOME TEST */
+/* HOME  */
 Route::get('/', function () {
-    return 'Laravel Berhasil Jalan';
+    return view('beranda.index'); 
 })->name('home');
 
 

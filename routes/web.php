@@ -198,32 +198,12 @@ Route::middleware(['auth'])->group(function () {
         ->name('kandidat.reject');
 });
 
-Route::get('/session-test', function () {
-    session(['test' => 'berhasil']);
-    return 'session dibuat';
-});
-
-Route::get('/session-read', function () {
-    return session('test', 'gagal');
-});
-
-Route::get('/cookie-test', function () {
-
-    Cookie::queue(
-        'nova_test',
-        '12345',
-        60
-    );
-
-    return 'cookie dibuat';
-});
-
-Route::get('/env-test', function () {
-    return [
+Route::get('/debug-env', function () {
+    return response()->json([
         'APP_KEY' => env('APP_KEY') ? 'ADA' : 'KOSONG',
         'SESSION_DRIVER' => env('SESSION_DRIVER'),
         'APP_URL' => env('APP_URL'),
-    ];
+    ]);
 });
 /*
 |--------------------------------------------------------------------------

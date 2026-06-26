@@ -73,64 +73,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reject/{id}', [KandidatController::class, 'reject'])->name('kandidat.reject');
 });
 
-if (! app()->environment('production')) {
-    Route::get('/cek-login', function () {
-        return [
-            'check' => Auth::check(),
-            'user' => Auth::user(),
-            'session' => session()->all(),
-        ];
-    });
-
-    Route::get('/cek-config', function () {
-        return [
-            'driver' => config('session.driver'),
-            'secure' => config('session.secure'),
-            'domain' => config('session.domain'),
-            'same_site' => config('session.same_site'),
-            'app_url' => config('app.url'),
-            'connection' => config('session.connection'),
-            'table' => config('session.table'),
-        ];
-    });
-
-    Route::get('/cek-cookie', function () {
-        return response()->json([
-            'session_cookie_name' => config('session.cookie'),
-            'request_cookies' => request()->cookies->all(),
-            'session_id' => session()->getId(),
-        ]);
-    });
-
-    Route::get('/cek-session-config', function () {
-        return [
-            'driver' => config('session.driver'),
-            'cookie' => config('session.cookie'),
-            'secure' => config('session.secure'),
-            'same_site' => config('session.same_site'),
-            'domain' => config('session.domain'),
-        ];
-    });
-
-    Route::get('/cek-auth', function () {
-        return [
-            'auth' => Auth::check(),
-            'id' => Auth::id(),
-            'user' => Auth::user(),
-            'session' => session()->all(),
-            'session_id' => session()->getId(),
-        ];
-    });
-
-    Route::get('/cek-app', function () {
-        return [
-            'app_key' => config('app.key') ? 'ADA' : 'TIDAK ADA',
-            'app_url' => config('app.url'),
-            'session_driver' => config('session.driver'),
-            'session_cookie' => config('session.cookie'),
-        ];
-    });
-}
 
 /* AUTH */
 require __DIR__.'/auth.php';

@@ -112,5 +112,17 @@ Route::get('/cek-session-config', function () {
         'domain' => config('session.domain'),
     ];
 });
+
+
+
+Route::get('/cek-auth', function () {
+    return [
+        'auth' => Auth::check(),
+        'id' => Auth::id(),
+        'user' => Auth::user(),
+        'session' => session()->all(),
+        'session_id' => session()->getId(),
+    ];
+});
 /* AUTH */
 require __DIR__.'/auth.php';

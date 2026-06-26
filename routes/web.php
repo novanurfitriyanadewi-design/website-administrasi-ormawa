@@ -134,3 +134,7 @@ if (! app()->environment('production')) {
 
 /* AUTH */
 require __DIR__.'/auth.php';
+
+if (app()->environment('production')) {
+     URL:: forceScheme('https');
+}

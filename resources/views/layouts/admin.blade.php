@@ -14,9 +14,15 @@
     <!-- SIDEBAR -->
     <aside class="w-64 bg-sky-800 text-white p-6">
 
-        <h1 class="text-2xl font-bold mb-2">
-            ORMAWA ADMIN
-        </h1>
+        <!-- LOGO -->
+        <div class="flex items-center mb-6">
+            <img src="{{ asset('images/dpm.png') }}" 
+                 alt="Logo DPM" 
+                 class="w-12 h-12 mr-3 rounded-full object-cover">
+            <h1 class="text-2xl font-bold">
+                ORMAWA SAINTEK
+            </h1>
+        </div>
 
         <p class="text-sm text-sky-200 mb-8">
             Login sebagai: {{ auth()->user()->role }}
@@ -54,7 +60,6 @@
 
             @endif
 
-
             {{-- MENU KHUSUS BEM DAN HIMASI --}}
             @if(in_array(auth()->user()->role, ['bem', 'himasi']))
 
@@ -70,11 +75,9 @@
 
             @endif
 
-
             {{-- LOGOUT --}}
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-
                 <button type="submit"
                         class="w-full text-left px-4 py-3 rounded-lg hover:bg-red-600">
                     Logout

@@ -1,3 +1,4 @@
+```blade
 @extends('layouts.admin')
 
 @section('title', 'Surat Masuk')
@@ -7,15 +8,15 @@
 <div class="max-w-7xl mx-auto py-10 px-4">
 
     {{-- HEADER --}}
-    <div class="flex justify-between items-center mb-6">
+    <div class="flex flex-col md:flex-row justify-between md:items-center gap-4 mb-6">
 
         <h1 class="text-2xl font-bold text-gray-800">
             Data Surat Masuk
         </h1>
 
         <a href="{{ route('surat-masuk.create') }}"
-           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow transition">
-            + Tambah
+           class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg shadow">
+            + Tambah Surat
         </a>
 
     </div>
@@ -23,16 +24,18 @@
     {{-- SEARCH --}}
     <form action="{{ route('surat-masuk.index') }}"
           method="GET"
-          class="mb-5 flex gap-2">
+          class="flex gap-2 mb-6">
 
-        <input type="text"
-               name="q"
-               value="{{ request('q') }}"
-               placeholder="Cari nomor surat / pengirim / perihal..."
-               class="border border-gray-300 rounded-lg px-4 py-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-400">
+        <input
+            type="text"
+            name="q"
+            value="{{ request('q') }}"
+            placeholder="Cari nomor surat, pengirim atau perihal..."
+            class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
 
-        <button type="submit"
-                class="bg-gray-700 hover:bg-gray-800 text-white px-5 py-2 rounded-lg">
+        <button
+            type="submit"
+            class="bg-gray-700 hover:bg-gray-800 text-white px-5 rounded-lg">
             Cari
         </button>
 
@@ -40,155 +43,144 @@
 
     {{-- FLASH MESSAGE --}}
     @if(session('success'))
-        <div class="bg-green-100 border border-green-300 text-green-700 p-3 rounded-lg mb-4">
+        <div class="bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-lg mb-5">
             {{ session('success') }}
         </div>
     @endif
 
     {{-- TABLE --}}
-    <div class="overflow-x-auto bg-white rounded-xl shadow border border-gray-200">
+    <div class="bg-white rounded-xl shadow border overflow-x-auto">
 
         <table class="min-w-full">
 
-            {{-- HEADER --}}
-            <thead class="bg-gray-100 border-b">
+            <thead class="bg-gray-100">
 
                 <tr>
 
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                        No
-                    </th>
-
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 min-w-[320px]">
-                        Nomor Surat
-                    </th>
-
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                        Tanggal
-                    </th>
-
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">
-                        Pengirim
-                    </th>
-
-                    <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 min-w-[250px]">
-                        Perihal
-                    </th>
-
-                    <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">
-                        File
-                    </th>
-
-                    <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">
-                        Aksi
-                    </th>
+                    <th class="px-4 py-3 text-left">No</th>
+                    <th class="px-4 py-3 text-left">Nomor Surat</th>
+                    <th class="px-4 py-3 text-left">Tanggal</th>
+                    <th class="px-4 py-3 text-left">Pengirim</th>
+                    <th class="px-4 py-3 text-left">Perihal</th>
+                    <th class="px-4 py-3 text-center">File</th>
+                    <th class="px-4 py-3 text-center">Aksi</th>
 
                 </tr>
 
             </thead>
 
-            {{-- BODY --}}
-            <tbody class="divide-y divide-gray-200">
+            <tbody class="divide-y">
 
-                @forelse($data as $i => $s)
+            @forelse($data as $i => $s)
 
-                    <tr class="hover:bg-gray-50 transition">
+                <tr class="hover:bg-gray-50 transition">
 
-                        {{-- NO --}}
-                        <td class="px-4 py-4 text-sm text-gray-700">
-                            {{ $data->firstItem() + $i }}
-                        </td>
+                    <td class="px-4 py-4">
+                        {{ $data->firstItem() + $i }}
+                    </td>
 
-                        {{-- NOMOR SURAT --}}
-                        <td class="px-4 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
-                            {{ $s->nomor_surat }}
-                        </td>
+                    <td class="px-4 py-4 font-semibold whitespace-nowrap">
+                        {{ $s->nomor_surat }}
+                    </td>
 
-                        {{-- TANGGAL --}}
-                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
-                            {{ \Carbon\Carbon::parse($s->tanggal_surat)->format('d-m-Y') }}
-                        </td>
+                    <td class="px-4 py-4 whitespace-nowrap">
+                        {{ \Carbon\Carbon::parse($s->tanggal_surat)->format('d-m-Y') }}
+                    </td>
 
-                        {{-- PENGIRIM --}}
-                        <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
-                            {{ $s->pengirim }}
-                        </td>
+                    <td class="px-4 py-4 whitespace-nowrap">
+                        {{ $s->pengirim }}
+                    </td>
 
-                        {{-- PERIHAL --}}
-                        <td class="px-4 py-4 text-sm text-gray-700">
-                            {{ $s->perihal }}
-                        </td>
+                    <td class="px-4 py-4">
+                        {{ $s->perihal }}
+                    </td>
 
-                        {{-- FILE --}}
-                        <td class="px-4 py-4 text-center">
+                    {{-- FILE --}}
+                    <td class="px-4 py-4 text-center">
 
-                            @if($s->file)
+                        @if($s->file)
 
-                                <a href="{{ asset('storage/' . $s->file) }}"
-                                   target="_blank"
-                                   class="bg-green-500 hover:bg-green-600 text-white px-3 py-2 rounded-lg text-xs transition">
+                            <div class="flex flex-col items-center gap-2">
 
-                                    Lihat File
-                                </a>
+                                <span class="inline-flex items-center gap-1 bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium">
 
-                            @else
+                                    📄
 
-                                <span class="text-gray-400 text-xs">
-                                    Tidak ada file
+                                    {{ \Illuminate\Support\Str::limit(basename($s->file),25) }}
+
                                 </span>
 
-                            @endif
+                                <div class="flex gap-2">
 
-                        </td>
+                                    <a href="{{ asset('storage/'.$s->file) }}"
+                                       target="_blank"
+                                       class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs">
+                                        Lihat
+                                    </a>
 
-                        {{-- AKSI --}}
-                        <td class="px-4 py-4">
+                                    <a href="{{ asset('storage/'.$s->file) }}"
+                                       download
+                                       class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-xs">
+                                        Download
+                                    </a>
 
-                            <div class="flex justify-center gap-2">
-
-                                {{-- EDIT --}}
-                                <a href="{{ route('surat-masuk.edit', $s->id) }}"
-                                   class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg text-xs transition">
-
-                                    Edit
-                                </a>
-
-                                {{-- HAPUS --}}
-                                <form action="{{ route('surat-masuk.destroy', $s->id) }}"
-                                      method="POST"
-                                      onsubmit="return confirm('Hapus data ini?')">
-
-                                    @csrf
-                                    @method('DELETE')
-
-                                    <button type="submit"
-                                            class="bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded-lg text-xs transition">
-
-                                        Hapus
-                                    </button>
-
-                                </form>
+                                </div>
 
                             </div>
 
-                        </td>
+                        @else
 
-                    </tr>
+                            <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-xs">
+                                Tidak ada file
+                            </span>
 
-                @empty
+                        @endif
 
-                    <tr>
+                    </td>
 
-                        <td colspan="7"
-                            class="text-center py-8 text-gray-500">
+                    {{-- AKSI --}}
+                    <td class="px-4 py-4">
 
-                            Data surat masuk belum tersedia
+                        <div class="flex justify-center gap-2">
 
-                        </td>
+                            <a href="{{ route('surat-masuk.edit',$s->id) }}"
+                               class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded text-xs">
+                                Edit
+                            </a>
 
-                    </tr>
+                            <form action="{{ route('surat-masuk.destroy',$s->id) }}"
+                                  method="POST"
+                                  onsubmit="return confirm('Yakin ingin menghapus data ini?')">
 
-                @endforelse
+                                @csrf
+                                @method('DELETE')
+
+                                <button
+                                    type="submit"
+                                    class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded text-xs">
+                                    Hapus
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+            @empty
+
+                <tr>
+
+                    <td colspan="7"
+                        class="text-center py-10 text-gray-500">
+                        Belum ada data surat masuk.
+                    </td>
+
+                </tr>
+
+            @endforelse
 
             </tbody>
 
@@ -197,10 +189,11 @@
     </div>
 
     {{-- PAGINATION --}}
-    <div class="mt-5">
+    <div class="mt-6">
         {{ $data->links() }}
     </div>
 
 </div>
 
 @endsection
+```

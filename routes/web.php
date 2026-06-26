@@ -103,5 +103,14 @@ Route::get('/cek-cookie', function () {
     ]);
 });
 
+Route::get('/cek-session-config', function () {
+    return [
+        'driver' => config('session.driver'),
+        'cookie' => config('session.cookie'),
+        'secure' => config('session.secure'),
+        'same_site' => config('session.same_site'),
+        'domain' => config('session.domain'),
+    ];
+});
 /* AUTH */
 require __DIR__.'/auth.php';

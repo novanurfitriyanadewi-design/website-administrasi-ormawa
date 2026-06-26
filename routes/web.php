@@ -9,8 +9,8 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DpmController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\KandidatController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 
 /* HOME (halaman publik) */
 Route::get('/', function () {
@@ -60,6 +60,10 @@ Route::get('/laporan', [LaporanController::class, 'perKategori'])->name('laporan
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [LaporanController::class, 'perKategori'])->name('dashboard');
 
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
     Route::resource('proposal', ProposalController::class);
     Route::put('/proposal/{proposal}/revisi', [ProposalController::class, 'revisi'])->name('proposal.revisi');
 
@@ -69,72 +73,64 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/reject/{id}', [KandidatController::class, 'reject'])->name('kandidat.reject');
 });
 
-Route::get('/cek-login', function () {
-    return [
-        'check' => Auth::check(),
-        'user' => Auth::user(),
-        'session' => session()->all(),
-    ];
-});
+if (! app()->environment('production')) {
+    Route::get('/cek-login', function () {
+        return [
+            'check' => Auth::check(),
+            'user' => Auth::user(),
+            'session' => session()->all(),
+        ];
+    });
 
-Route::get('/cek-config', function () {
-    return [
-        'driver' => config('session.driver'),
-        'secure' => config('session.secure'),
-        'domain' => config('session.domain'),
-        'same_site' => config('session.same_site'),
-        'app_url' => config('app.url'),
-    ];
-});
+    Route::get('/cek-config', function () {
+        return [
+            'driver' => config('session.driver'),
+            'secure' => config('session.secure'),
+            'domain' => config('session.domain'),
+            'same_site' => config('session.same_site'),
+            'app_url' => config('app.url'),
+            'connection' => config('session.connection'),
+            'table' => config('session.table'),
+        ];
+    });
 
-Route::get('/cek-config', function () {
-    return [
-        'driver' => config('session.driver'),
-        'connection' => config('session.connection'),
-        'table' => config('session.table'),
-    ];
-});
+    Route::get('/cek-cookie', function () {
+        return response()->json([
+            'session_cookie_name' => config('session.cookie'),
+            'request_cookies' => request()->cookies->all(),
+            'session_id' => session()->getId(),
+        ]);
+    });
 
-Route::get('/cek-cookie', function () {
-    return response()->json([
-        'session_cookie_name' => config('session.cookie'),
-        'request_cookies' => request()->cookies->all(),
-        'session_id' => session()->getId(),
-    ]);
-});
+    Route::get('/cek-session-config', function () {
+        return [
+            'driver' => config('session.driver'),
+            'cookie' => config('session.cookie'),
+            'secure' => config('session.secure'),
+            'same_site' => config('session.same_site'),
+            'domain' => config('session.domain'),
+        ];
+    });
 
-Route::get('/cek-session-config', function () {
-    return [
-        'driver' => config('session.driver'),
-        'cookie' => config('session.cookie'),
-        'secure' => config('session.secure'),
-        'same_site' => config('session.same_site'),
-        'domain' => config('session.domain'),
-    ];
-});
+    Route::get('/cek-auth', function () {
+        return [
+            'auth' => Auth::check(),
+            'id' => Auth::id(),
+            'user' => Auth::user(),
+            'session' => session()->all(),
+            'session_id' => session()->getId(),
+        ];
+    });
 
+    Route::get('/cek-app', function () {
+        return [
+            'app_key' => config('app.key') ? 'ADA' : 'TIDAK ADA',
+            'app_url' => config('app.url'),
+            'session_driver' => config('session.driver'),
+            'session_cookie' => config('session.cookie'),
+        ];
+    });
+}
 
-
-Route::get('/cek-auth', function () {
-    return [
-        'auth' => Auth::check(),
-        'id' => Auth::id(),
-        'user' => Auth::user(),
-        'session' => session()->all(),
-        'session_id' => session()->getId(),
-    ];
-});
-
-Route::get('/cek-app', function () {
-    return [
-        'app_key' => config('app.key') ? 'ADA' : 'TIDAK ADA',
-        'app_url' => config('app.url'),
-        'session_driver' => config('session.driver'),
-        'session_cookie' => config('session.cookie'),
-    ];
-});
 /* AUTH */
 require __DIR__.'/auth.php';
-  if (app()->environment('production')) {
-     URL:: forceScheme('https');
-  }

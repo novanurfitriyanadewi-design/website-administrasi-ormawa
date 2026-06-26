@@ -29,16 +29,7 @@ class AuthenticatedSessionController extends Controller
                 ->withErrors(['email' => 'User tidak ditemukan.']);
         }
 
-        // Redirect sesuai role
-        switch ($user->role) {
-            case 'dpm':
-                return redirect()->intended(route('dashboard'));
-            case 'bem':
-            case 'himasi':
-                return redirect()->intended(route('proposal.index'));
-            default:
-                return redirect()->intended('/');
-        }
+        return redirect()->intended(route('dashboard'));
     }
 
     public function destroy(Request $request): RedirectResponse

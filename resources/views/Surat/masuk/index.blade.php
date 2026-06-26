@@ -106,7 +106,7 @@
 
                         {{-- TANGGAL --}}
                         <td class="px-4 py-4 text-sm text-gray-700 whitespace-nowrap">
-                            {{ \Carbon\Carbon::parse($s->tanggal)->format('d-m-Y') }}
+                            {{ \Carbon\Carbon::parse($s->tanggal_surat)->format('d-m-Y') }}
                         </td>
 
                         {{-- PENGIRIM --}}

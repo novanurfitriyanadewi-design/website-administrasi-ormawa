@@ -98,7 +98,7 @@ class KandidatController extends Controller
             'organisasi' => 'required',
             'visi' => 'required',
             'misi' => 'required',
-            'ipk' => $request->ipk
+            'ipk' => ['nullable', 'numeric', 'between:0,4.00'],
         ]);
 
         $kandidat->update($data);
@@ -133,7 +133,7 @@ class KandidatController extends Controller
     {
         $kandidats = Candidate::latest()->get();
 
-        return view('verifikasi.kandidat', compact('kandidats'));
+        return view('verivikasi.kandidat', compact('kandidats'));
     }
 
     /**

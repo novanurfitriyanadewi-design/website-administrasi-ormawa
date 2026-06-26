@@ -35,8 +35,14 @@
     "APP_SERVICES_CACHE": "/tmp/services.php",
     "VIEW_COMPILED_PATH": "/tmp",
 
+    "CACHE_STORE": "array",
     "CACHE_DRIVER": "array",
     "LOG_CHANNEL": "stderr",
-    "SESSION_DRIVER": "database"
+    "SESSION_DRIVER": "cookie",
+    "SESSION_LIFETIME": "120",
+    "SESSION_SECURE_COOKIE": "true",
+    "SESSION_HTTP_ONLY": "true",
+    "SESSION_SAME_SITE": "lax",
+    "SESSION_DOMAIN": ""
   }
 }

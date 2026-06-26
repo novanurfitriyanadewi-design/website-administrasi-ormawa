@@ -94,5 +94,14 @@ Route::get('/cek-config', function () {
         'table' => config('session.table'),
     ];
 });
+
+Route::get('/cek-cookie', function () {
+    return response()->json([
+        'session_cookie_name' => config('session.cookie'),
+        'request_cookies' => request()->cookies->all(),
+        'session_id' => session()->getId(),
+    ]);
+});
+
 /* AUTH */
 require __DIR__.'/auth.php';

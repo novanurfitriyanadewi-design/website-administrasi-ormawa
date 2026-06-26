@@ -18,17 +18,32 @@ class AuthenticatedSessionController extends Controller
 
     public function store(LoginRequest $request): RedirectResponse
     {
+        // Autentikasi user
         $request->authenticate();
-
         $request->session()->regenerate();
 
-        return redirect('/cek-login');
+        $user = Auth::user();
+
+        if (! $user) {
+            return redirect()->route('login')
+                ->withErrors(['email' => 'User tidak ditemukan.']);
+        }
+
+        // Redirect sesuai role
+        switch ($user->role) {
+            case 'dpm':
+                return redirect()->route('dashboard');
+            case 'bem':
+            case 'himasi':
+                return redirect()->route('proposal.index');
+            default:
+                return redirect()->route('home');
+        }
     }
 
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 

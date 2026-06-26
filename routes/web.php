@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfilController;
-use App\Http\Controllers\KatalogController;
 use App\Http\Controllers\OrmawaController;
 use App\Http\Controllers\SuratMasukController;
 use App\Http\Controllers\SuratKeluarController;
@@ -10,24 +9,13 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DpmController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\KandidatController;
-use Illuminate\Support\Facades\Auth;
-/*
-|--------------------------------------------------------------------------
-| HOME
-|--------------------------------------------------------------------------
-*/
 
+/* HOME */
 Route::get('/', function () {
     return view('beranda.index');
 })->name('home');
 
-
-/*
-|--------------------------------------------------------------------------
-| PERKENALAN
-|--------------------------------------------------------------------------
-*/
-
+/* PERKENALAN */
 Route::get('/perkenalan', function () {
     return '
         <h1>Halo! Nama saya Nova Nurfitriyana</h1>
@@ -36,235 +24,48 @@ Route::get('/perkenalan', function () {
     ';
 });
 
+/* KOLABORATOR */
+Route::get('/badrus-sholeh', fn() => "Halo, saya M. Badrus Sholeh (Kolaborator)");
+Route::get('/bimoadi', fn() => "Halo, saya Bimoadi (Kolaborator)");
 
-/*
-|--------------------------------------------------------------------------
-| KOLABORATOR
-|--------------------------------------------------------------------------
-*/
+/* ORMAWA */
+Route::get('/ormawa', [OrmawaController::class, 'index'])->name('ormawa.index');
+Route::get('/ormawa/{nama}', [OrmawaController::class, 'show'])->name('ormawa.show');
 
-Route::get('/badrus-sholeh', function () {
-    return "Halo, saya M. Badrus Sholeh (Kolaborator)";
-});
+/* HALAMAN ORGANISASI */
+Route::view('/bem', 'ormawa.bem')->name('bem');
+Route::view('/dpm', 'ormawa.dpm')->name('dpm');
+Route::view('/himasi', 'ormawa.himasi')->name('himasi');
 
-Route::get('/bimoadi', function () {
-    return "Halo, saya Bimoadi (Kolaborator)";
-});
+/* PROFIL */
+Route::get('/profil', [ProfilController::class, 'index'])->name('profil.index');
+Route::get('/profil/{id}', [ProfilController::class, 'show'])->name('profil.show');
 
+/* PROGRAM */
+Route::view('/program', 'program.index')->name('program');
+Route::view('/program/bem', 'program.bem.index')->name('program.bem');
+Route::get('/program/dpm', [DpmController::class, 'index'])->name('program.dpm');
+Route::get('/program/dpm/create', [DpmController::class, 'create'])->name('dpm.create');
+Route::post('/program/dpm/store', [DpmController::class, 'store'])->name('dpm.store');
+Route::view('/program/himasi', 'program.himasi.index')->name('program.himasi');
 
-/*
-|--------------------------------------------------------------------------
-| ORMAWA
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/ormawa', [OrmawaController::class, 'index'])
-    ->name('ormawa.index');
-
-Route::get('/ormawa/{nama}', [OrmawaController::class, 'show'])
-    ->name('ormawa.show');
-
-
-/*
-|--------------------------------------------------------------------------
-| HALAMAN ORGANISASI
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/bem', function () {
-    return view('ormawa.bem');
-})->name('bem');
-
-Route::get('/dpm', function () {
-    return view('ormawa.dpm');
-})->name('dpm');
-
-Route::get('/himasi', function () {
-    return view('ormawa.himasi');
-})->name('himasi');
-
-
-/*
-|--------------------------------------------------------------------------
-| PROFIL
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/profil', [ProfilController::class, 'index'])
-    ->name('profil.index');
-
-Route::get('/profil/{id}', [ProfilController::class, 'show'])
-    ->name('profil.show');
-
-
-/*
-|--------------------------------------------------------------------------
-| PROGRAM KERJA
-|--------------------------------------------------------------------------
-*/
-
-Route::view('/program', 'program.index')
-    ->name('program');
-
-Route::view('/program/bem', 'program.bem.index')
-    ->name('program.bem');
-
-Route::get('/program/dpm', [DpmController::class, 'index'])
-    ->name('program.dpm');
-
-Route::get('/program/dpm/create', [DpmController::class, 'create'])
-    ->name('dpm.create');
-
-Route::post('/program/dpm/store', [DpmController::class, 'store'])
-    ->name('dpm.store');
-
-Route::view('/program/himasi', 'program.himasi.index')
-    ->name('program.himasi');
-
-
-/*
-|--------------------------------------------------------------------------
-| SURAT
-|--------------------------------------------------------------------------
-*/
-
+/* SURAT */
 Route::resource('surat-masuk', SuratMasukController::class);
 Route::resource('surat-keluar', SuratKeluarController::class);
 
+/* LAPORAN */
+Route::get('/laporan', [LaporanController::class, 'perKategori'])->name('laporan');
 
-/*
-|--------------------------------------------------------------------------
-| LAPORAN
-|--------------------------------------------------------------------------
-*/
-
-Route::get('/laporan', [LaporanController::class, 'perKategori'])
-    ->name('laporan');
-
-
-/*
-|--------------------------------------------------------------------------
-| AREA LOGIN
-|--------------------------------------------------------------------------
-*/
-
+/* AREA LOGIN */
 Route::middleware(['auth'])->group(function () {
-
-    /*
-    |--------------------------------------------------------------------------
-    | DASHBOARD
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/dashboard', [LaporanController::class, 'perKategori'])
-        ->name('dashboard');
-
-    /*
-    |--------------------------------------------------------------------------
-    | PROPOSAL
-    |--------------------------------------------------------------------------
-    */
-
+    Route::get('/dashboard', [LaporanController::class, 'perKategori'])->name('dashboard');
     Route::resource('proposal', ProposalController::class);
-
-    Route::put('/proposal/{proposal}/revisi',
-        [ProposalController::class, 'revisi'])
-        ->name('proposal.revisi');
-
-    /*
-    |--------------------------------------------------------------------------
-    | KANDIDAT KETUA BEM / HIMASI
-    |--------------------------------------------------------------------------
-    */
-
+    Route::put('/proposal/{proposal}/revisi', [ProposalController::class, 'revisi'])->name('proposal.revisi');
     Route::resource('kandidat', KandidatController::class);
-
-    /*
-    |--------------------------------------------------------------------------
-    | VERIFIKASI KANDIDAT OLEH DPM
-    |--------------------------------------------------------------------------
-    */
-
-    Route::get('/verifikasi-kandidat',
-        [KandidatController::class, 'verifikasi'])
-        ->name('verifikasi.kandidat');
-
-    Route::post('/approve/{id}',
-        [KandidatController::class, 'approve'])
-        ->name('kandidat.approve');
-
-    Route::post('/reject/{id}',
-        [KandidatController::class, 'reject'])
-        ->name('kandidat.reject');
+    Route::get('/verifikasi-kandidat', [KandidatController::class, 'verifikasi'])->name('verifikasi.kandidat');
+    Route::post('/approve/{id}', [KandidatController::class, 'approve'])->name('kandidat.approve');
+    Route::post('/reject/{id}', [KandidatController::class, 'reject'])->name('kandidat.reject');
 });
 
-Route::get('/debug-env', function () {
-    return response()->json([
-        'APP_KEY' => env('APP_KEY') ? 'ADA' : 'KOSONG',
-        'SESSION_DRIVER' => env('SESSION_DRIVER'),
-        'APP_URL' => env('APP_URL'),
-    ]);
-});
-
-Route::get('/session-test', function () {
-    session(['test' => 'OK']);
-
-    return [
-        'session_id' => session()->getId(),
-        'test' => session('test'),
-        'auth' => auth()->check(),
-    ];
-});
-
-Route::get('/auth-test', function () {
-
-    Auth::loginUsingId(2);
-
-    return [
-        'auth' => Auth::check(),
-        'user' => Auth::user(),
-    ];
-});
-
-Route::middleware(['auth'])->group(function () {
-    Route::resource('proposal', ProposalController::class);
-});
-
-Route::get('/cek-login', function () {
-
-    return response()->json([
-        'auth' => auth()->check(),
-        'user' => auth()->user(),
-        'session_id' => session()->getId(),
-    ]);
-
-});
-
-Route::get('/cookie-test', function () {
-    return response()->json([
-        'session_id' => session()->getId(),
-        'auth' => auth()->check(),
-    ]);
-});
-
-Route::get('/login-force', function () {
-
-    Auth::loginUsingId(2);
-
-    return redirect('/cek-login');
-
-});
-
-Route::get('/env-test', function () {
-    return [
-        'APP_KEY' => config('app.key'),
-        'SESSION_DRIVER' => config('session.driver'),
-    ];
-});
-/*
-|--------------------------------------------------------------------------
-| AUTH
-|--------------------------------------------------------------------------
-*/
-
+/* AUTH */
 require __DIR__.'/auth.php';

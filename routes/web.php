@@ -10,6 +10,7 @@ use App\Http\Controllers\DpmController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\KandidatController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 /* HOME (halaman publik) */
 Route::get('/', function () {
@@ -73,6 +74,16 @@ Route::get('/cek-login', function () {
         'check' => Auth::check(),
         'user' => Auth::user(),
         'session' => session()->all(),
+    ];
+});
+
+Route::get('/cek-config', function () {
+    return [
+        'driver' => config('session.driver'),
+        'secure' => config('session.secure'),
+        'domain' => config('session.domain'),
+        'same_site' => config('session.same_site'),
+        'app_url' => config('app.url'),
     ];
 });
 

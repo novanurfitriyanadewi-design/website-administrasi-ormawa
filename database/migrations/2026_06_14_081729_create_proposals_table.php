@@ -12,28 +12,29 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('proposals', function (Blueprint $table) {
-
             $table->id();
 
+            // Relasi ke tabel users
             $table->foreignId('user_id')
                   ->constrained()
                   ->cascadeOnDelete();
 
+            // Kolom sesuai Blade & Controller
             $table->string('nama_instansi');
             $table->string('nama_kegiatan');
-
             $table->string('judul');
-
             $table->text('deskripsi')->nullable();
 
             $table->string('file_proposal');
 
+            // Status sinkron dengan Blade & Controller
             $table->enum('status', [
+                'menunggu',
                 'sedang_diperiksa',
                 'revisi',
                 'diterima',
                 'diteruskan_bpkm'
-            ])->default('sedang_diperiksa');
+            ])->default('menunggu');
 
             $table->text('catatan')->nullable();
 

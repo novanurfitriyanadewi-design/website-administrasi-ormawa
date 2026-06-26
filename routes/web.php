@@ -9,6 +9,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\DpmController;
 use App\Http\Controllers\ProposalController;
 use App\Http\Controllers\KandidatController;
+use Illuminate\Support\Facades\Auth;
 
 /* HOME (halaman publik) */
 Route::get('/', function () {
@@ -65,6 +66,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/verifikasi-kandidat', [KandidatController::class, 'verifikasi'])->name('verifikasi.kandidat');
     Route::post('/approve/{id}', [KandidatController::class, 'approve'])->name('kandidat.approve');
     Route::post('/reject/{id}', [KandidatController::class, 'reject'])->name('kandidat.reject');
+});
+
+Route::get('/cek-login', function () {
+    return [
+        'check' => Auth::check(),
+        'user' => Auth::user(),
+        'session' => session()->all(),
+    ];
 });
 
 /* AUTH */

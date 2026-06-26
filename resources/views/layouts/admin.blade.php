@@ -1,51 +1,107 @@
-@extends('layouts.admin')
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin ORMAWA</title>
 
-@section('content')
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+</head>
+<body class="bg-gray-100">
 
-<h1 class="text-3xl font-bold mb-6">
-    Dashboard
-</h1>
+<div class="flex min-h-screen">
 
-<!-- GRID STATISTIK -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-sky-800 text-white p-6">
 
-    <div class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-sm font-medium text-gray-500">Surat Masuk</h2>
-        <p class="text-2xl font-bold text-sky-700 mt-2">
-            {{ $jumlahSuratMasuk ?? 0 }}
+        <!-- LOGO -->
+        <div class="flex items-center mb-6">
+            <img src="{{ asset('images/dpm.png') }}" 
+                 alt="Logo DPM" 
+                 class="w-12 h-12 mr-3 rounded-full object-cover">
+            <h1 class="text-2xl font-bold">
+                ORMAWA SAINTEK
+            </h1>
+        </div>
+
+        <p class="text-sm text-sky-200 mb-8">
+            Login sebagai: {{ auth()->user()->role }}
         </p>
-    </div>
 
-    <div class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-sm font-medium text-gray-500">Surat Keluar</h2>
-        <p class="text-2xl font-bold text-sky-700 mt-2">
-            {{ $jumlahSuratKeluar ?? 0 }}
-        </p>
-    </div>
+        <nav class="space-y-3">
 
-    <div class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-sm font-medium text-gray-500">Proposal</h2>
-        <p class="text-2xl font-bold text-sky-700 mt-2">
-            {{ $jumlahProposal ?? 0 }}
-        </p>
-    </div>
+            {{-- MENU KHUSUS DPM --}}
+            @if(auth()->user()->role == 'dpm')
 
-    <div class="bg-white shadow rounded-lg p-6">
-        <h2 class="text-sm font-medium text-gray-500">Kandidat</h2>
-        <p class="text-2xl font-bold text-sky-700 mt-2">
-            {{ $jumlahKandidat ?? 0 }}
-        </p>
-    </div>
+                <a href="{{ route('dashboard') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                     Dashboard
+                </a>
+
+                <a href="{{ route('surat-masuk.index') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                     Surat Masuk
+                </a>
+
+                <a href="{{ route('surat-keluar.index') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                     Surat Keluar
+                </a>
+
+                <a href="{{ route('proposal.index') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                    Pengajuan Proposal
+                </a>
+
+                <a href="{{ route('verifikasi.kandidat') }}"
+                    class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                    Verifikasi Kandidat
+                </a>
+
+            @endif
+
+            {{-- MENU KHUSUS BEM DAN HIMASI --}}
+            @if(in_array(auth()->user()->role, ['bem', 'himasi']))
+
+                <a href="{{ route('proposal.index') }}"
+                   class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                    Pengajuan Proposal
+                </a>
+
+                 <a href="{{ route('kandidat.index') }}"
+                    class="block px-4 py-3 rounded-lg hover:bg-sky-700">
+                     Calon Ketua
+                 </a>
+
+            @endif
+
+            {{-- LOGOUT --}}
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                        class="w-full text-left px-4 py-3 rounded-lg hover:bg-red-600">
+                    Logout
+                </button>
+            </form>
+
+        </nav>
+
+    </aside>
+
+    <!-- CONTENT -->
+    <main class="flex-1 p-10">
+
+        @if(session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @yield('content')
+
+    </main>
 
 </div>
 
-<!-- WELCOME CARD -->
-<div class="bg-white shadow rounded-lg p-8">
-    <h2 class="text-xl font-semibold mb-3">Selamat Datang, {{ auth()->user()->name }}</h2>
-    <p class="text-gray-600 leading-relaxed">
-        Anda login sebagai <span class="font-bold">{{ auth()->user()->role }}</span>. 
-        Gunakan menu di sidebar untuk mengelola surat, proposal, dan verifikasi kandidat.
-    </p>
-</div>
-
-@endsection
+</body>
+</html>

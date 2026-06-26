@@ -4,12 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\SuratMasuk;
 use App\Models\SuratKeluar;
+use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class LaporanController extends Controller
 {
 
     public function perKategori()
 {
+    $masukLabels = collect();
+    $masukValues = collect();
+    $keluarLabels = collect();
+    $keluarValues = collect();
+    $totalMasuk = 0;
+    $totalKeluar = 0;
+    $pivotData = collect();
+
+    try {
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            DB::statement('set statement_timeout to 5000');
+        }
     
     // SURAT MASUK PER KATEGORI //
     $masukData = SuratMasuk::join('jenis_surats', 'surat_masuks.jenis_surat_id', '=', 'jenis_surats.id')
@@ -56,6 +70,9 @@ class LaporanController extends Controller
             'kategori' => $item->nama,
             'jumlah' => $item->total
         ]);
+    }
+    } catch (Throwable $e) {
+        report($e);
     }
 
 

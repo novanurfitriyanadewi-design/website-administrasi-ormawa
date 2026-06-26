@@ -23,162 +23,160 @@
         </div>
     @endif
 
-    <div class="bg-white rounded-xl shadow border">
+    <div class="space-y-6">
 
-    <table class="w-full table-fixed border-collapse">
+@forelse($kandidats as $kandidat)
 
-        <thead class="bg-gray-100">
+<div class="bg-white rounded-xl shadow border p-6">
 
-            <tr>
+    <div class="grid md:grid-cols-4 gap-6">
 
-                <th class="w-12 p-3">No</th>
-                <th class="w-24 p-3">Foto</th>
-                <th class="w-40 p-3">Nama</th>
-                <th class="w-32 p-3">NIM</th>
-                <th class="w-40 p-3">Prodi</th>
-                <th class="w-32 p-3">Organisasi</th>
-                <th class="w-20 p-3">IPK</th>
-                <th class="w-52 p-3">Visi</th>
-                <th class="w-52 p-3">Misi</th>
-                <th class="w-28 p-3">Status</th>
-                <th class="w-52 p-3">Aksi</th>
+        <div class="flex justify-center">
 
-            </tr>
+            @if($kandidat->foto)
 
-        </thead>
+                <img src="{{ asset('storage/'.$kandidat->foto) }}"
+                    class="w-40 h-48 rounded-lg object-cover border">
 
-        <tbody>
+            @else
 
-        @forelse($kandidats as $kandidat)
+                <div class="w-40 h-48 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
+                    Tidak Ada Foto
+                </div>
 
-        <tr class="border-b hover:bg-gray-50 align-top">
+            @endif
 
-            <td class="p-3 text-center">
-                {{ $loop->iteration }}
-            </td>
+        </div>
 
-            <td class="p-3 text-center">
+        <div class="md:col-span-3">
 
-                @if($kandidat->foto)
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                    <img src="{{ asset('storage/'.$kandidat->foto) }}"
-                        class="w-16 h-16 rounded-lg object-cover mx-auto">
+                <div>
+                    <label class="font-semibold text-gray-600">Nama</label>
+                    <div class="border rounded p-2">{{ $kandidat->nama }}</div>
+                </div>
 
-                @else
+                <div>
+                    <label class="font-semibold text-gray-600">NIM</label>
+                    <div class="border rounded p-2">{{ $kandidat->nim }}</div>
+                </div>
 
-                    <div class="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center text-xs mx-auto">
-                        Tidak Ada
+                <div>
+                    <label class="font-semibold text-gray-600">Program Studi</label>
+                    <div class="border rounded p-2">{{ $kandidat->prodi }}</div>
+                </div>
+
+                <div>
+                    <label class="font-semibold text-gray-600">Organisasi</label>
+                    <div class="border rounded p-2">{{ $kandidat->organisasi }}</div>
+                </div>
+
+                <div>
+                    <label class="font-semibold text-gray-600">IPK</label>
+                    <div class="border rounded p-2">{{ $kandidat->ipk }}</div>
+                </div>
+
+                <div>
+                    <label class="font-semibold text-gray-600">Status</label>
+
+                    <div class="mt-2">
+
+                        @if($kandidat->status=='disetujui')
+
+                            <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                                Disetujui
+                            </span>
+
+                        @elseif($kandidat->status=='ditolak')
+
+                            <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm">
+                                Ditolak
+                            </span>
+
+                        @else
+
+                            <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm">
+                                Menunggu
+                            </span>
+
+                        @endif
+
                     </div>
-
-                @endif
-
-            </td>
-
-            <td class="p-3 break-words">
-                {{ $kandidat->nama }}
-            </td>
-
-            <td class="p-3 break-words">
-                {{ $kandidat->nim }}
-            </td>
-
-            <td class="p-3 break-words">
-                {{ $kandidat->prodi }}
-            </td>
-
-            <td class="p-3 break-words">
-                {{ $kandidat->organisasi }}
-            </td>
-
-            <td class="p-3 text-center">
-                {{ $kandidat->ipk }}
-            </td>
-
-            <td class="p-3 break-words whitespace-normal">
-                {{ $kandidat->visi }}
-            </td>
-
-            <td class="p-3 break-words whitespace-normal">
-                {{ $kandidat->misi }}
-            </td>
-
-            <td class="p-3 text-center">
-
-                @if($kandidat->status=='disetujui')
-
-                    <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">
-                        Disetujui
-                    </span>
-
-                @elseif($kandidat->status=='ditolak')
-
-                    <span class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs">
-                        Ditolak
-                    </span>
-
-                @else
-
-                    <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs">
-                        Menunggu
-                    </span>
-
-                @endif
-
-            </td>
-
-            <td class="p-3">
-
-                <div class="flex flex-col gap-2">
-
-                    <a href="{{ route('kandidat.show',$kandidat->id) }}"
-                        class="bg-blue-600 text-white rounded py-2 text-center text-xs">
-                        Detail
-                    </a>
-
-                    <a href="{{ route('kandidat.edit',$kandidat->id) }}"
-                        class="bg-yellow-500 text-white rounded py-2 text-center text-xs">
-                        Edit
-                    </a>
-
-                    <form action="{{ route('kandidat.destroy',$kandidat->id) }}"
-                        method="POST">
-
-                        @csrf
-                        @method('DELETE')
-
-                        <button
-                            class="w-full bg-red-600 text-white rounded py-2 text-xs"
-                            onclick="return confirm('Hapus kandidat?')">
-
-                            Hapus
-
-                        </button>
-
-                    </form>
 
                 </div>
 
-            </td>
+            </div>
 
-        </tr>
+            <div class="mt-5">
 
-        @empty
+                <label class="font-semibold text-gray-600">
+                    Visi
+                </label>
 
-        <tr>
+                <div class="border rounded p-3 mt-1">
+                    {{ $kandidat->visi }}
+                </div>
 
-            <td colspan="11" class="text-center p-5">
+            </div>
 
-                Belum ada data kandidat
+            <div class="mt-4">
 
-            </td>
+                <label class="font-semibold text-gray-600">
+                    Misi
+                </label>
 
-        </tr>
+                <div class="border rounded p-3 mt-1">
+                    {{ $kandidat->misi }}
+                </div>
 
-        @endforelse
+            </div>
 
-        </tbody>
+            <div class="flex gap-3 mt-6">
 
-    </table>
+                <a href="{{ route('kandidat.show',$kandidat->id) }}"
+                    class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg">
+                    Detail
+                </a>
+
+                <a href="{{ route('kandidat.edit',$kandidat->id) }}"
+                    class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg">
+                    Edit
+                </a>
+
+                <form action="{{ route('kandidat.destroy',$kandidat->id) }}"
+                    method="POST">
+
+                    @csrf
+                    @method('DELETE')
+
+                    <button
+                        onclick="return confirm('Hapus kandidat?')"
+                        class="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg">
+
+                        Hapus
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+@empty
+
+<div class="bg-white rounded-xl shadow p-8 text-center text-gray-500">
+
+    Belum ada data kandidat.
+
+</div>
+
+@endforelse
 
 </div>
 

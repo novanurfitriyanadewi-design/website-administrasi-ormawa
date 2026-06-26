@@ -16,10 +16,10 @@
     <div class="absolute -bottom-16 -left-10 w-56 h-56 rounded-full opacity-15 bg-sky-400 blur-3xl"></div>
 
     {{-- Card --}}
-    <div class="relative z-10 w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-x-hidden">
+    <div class="relative z-10 w-full max-w-sm bg-white rounded-2xl shadow-2xl overflow-hidden">
 
         {{-- Header --}}
-        <div class="px-8 py-6 bg-blue-900 relative">
+        <div class="px-8 py-6 bg-blue-900">
             <div class="flex items-center gap-3">
                 <div class="w-11 h-11 rounded-xl flex items-center justify-center text-white font-bold text-lg bg-blue-600">
                     O
@@ -50,11 +50,9 @@
 
                 {{-- Email --}}
                 <div>
-                    <label for="email"
-                        class="block text-xs font-semibold text-gray-700 mb-1.5">
+                    <label for="email" class="block text-xs font-semibold text-gray-700 mb-1.5">
                         Email
                     </label>
-
                     <input
                         id="email"
                         type="email"
@@ -66,17 +64,14 @@
                         autocomplete="username"
                         class="w-full h-11 px-4 text-sm bg-gray-50 border border-gray-200 rounded-lg
                                focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition">
-
                     <x-input-error :messages="$errors->get('email')" class="mt-1.5" />
                 </div>
 
                 {{-- Password --}}
                 <div>
-                    <label for="password"
-                        class="block text-xs font-semibold text-gray-700 mb-1.5">
+                    <label for="password" class="block text-xs font-semibold text-gray-700 mb-1.5">
                         Password
                     </label>
-
                     <div class="relative">
                         <input
                             id="password"
@@ -91,28 +86,23 @@
                         <button
                             type="button"
                             id="togglePw"
+                            aria-label="Tampilkan/sembunyikan password"
                             class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
                             👁
                         </button>
                     </div>
-
                     <x-input-error :messages="$errors->get('password')" class="mt-1.5" />
                 </div>
 
                 {{-- Remember + Forgot --}}
                 <div class="flex items-center justify-between">
-                    <label for="remember_me"
-                        class="flex items-center gap-2 cursor-pointer">
-
+                    <label for="remember_me" class="flex items-center gap-2 cursor-pointer">
                         <input
                             id="remember_me"
                             type="checkbox"
                             name="remember"
                             class="w-4 h-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-
-                        <span class="text-xs text-gray-500">
-                            Ingat saya
-                        </span>
+                        <span class="text-xs text-gray-500">Ingat saya</span>
                     </label>
 
                     <a href="{{ route('password.request') }}"
@@ -125,7 +115,6 @@
                 <button
                     type="submit"
                     class="w-full h-11 bg-blue-600 hover:bg-blue-800 text-white text-sm font-bold rounded-lg transition active:scale-95">
-
                     Masuk
                 </button>
             </form>
@@ -146,9 +135,7 @@
         const btn = document.getElementById('togglePw');
 
         btn?.addEventListener('click', () => {
-            pw.type = pw.type === 'password'
-                ? 'text'
-                : 'password';
+            pw.type = pw.type === 'password' ? 'text' : 'password';
         });
     </script>
 

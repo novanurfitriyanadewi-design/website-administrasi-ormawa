@@ -32,12 +32,12 @@ class AuthenticatedSessionController extends Controller
         // Redirect sesuai role
         switch ($user->role) {
             case 'dpm':
-                return redirect()->route('dashboard');
+                return redirect()->intended(route('dashboard'));
             case 'bem':
             case 'himasi':
-                return redirect()->route('proposal.index');
+                return redirect()->intended(route('proposal.index'));
             default:
-                return redirect()->route('home');
+                return redirect()->intended('/');
         }
     }
 

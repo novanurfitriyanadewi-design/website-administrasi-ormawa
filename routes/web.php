@@ -124,5 +124,14 @@ Route::get('/cek-auth', function () {
         'session_id' => session()->getId(),
     ];
 });
+
+Route::get('/cek-app', function () {
+    return [
+        'app_key' => config('app.key') ? 'ADA' : 'TIDAK ADA',
+        'app_url' => config('app.url'),
+        'session_driver' => config('session.driver'),
+        'session_cookie' => config('session.cookie'),
+    ];
+});
 /* AUTH */
 require __DIR__.'/auth.php';

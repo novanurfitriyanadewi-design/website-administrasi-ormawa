@@ -16,11 +16,11 @@
     },
     {
       "src": "/storage/(.*)",
-      "dest": "storage/app/public/$1"
+      "dest": "public/storage/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "api/index.php"
+      "dest": "public/index.php"
     }
   ],
   "env": {

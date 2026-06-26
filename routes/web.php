@@ -87,5 +87,12 @@ Route::get('/cek-config', function () {
     ];
 });
 
+Route::get('/cek-config', function () {
+    return [
+        'driver' => config('session.driver'),
+        'connection' => config('session.connection'),
+        'table' => config('session.table'),
+    ];
+});
 /* AUTH */
 require __DIR__.'/auth.php';

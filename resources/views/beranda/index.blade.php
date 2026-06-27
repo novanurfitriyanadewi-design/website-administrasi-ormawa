@@ -8,26 +8,26 @@
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap');
 
     .hero-section {
-        position: relative;
-        height: 100vh;
-        width: 100%;
-        margin-top: -80px;
-        overflow: hidden;
-        font-family: 'DM Sans', sans-serif;
-    }
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    height: 100vh;
+    margin-top: -80px;
+    overflow: hidden;
+    font-family: 'DM Sans', sans-serif;
+}
 
-    .hero-bg {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-        filter: brightness(0.45) saturate(0.85);
-        transform: scale(1.05);
-        transition: transform 8s ease;
-    }
-
+   .hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    filter: brightness(.45) saturate(.85);
+    transform: scale(1.05);
+    transition: transform 8s ease;
+}
     .hero-section:hover .hero-bg {
         transform: scale(1.0);
     }
@@ -386,21 +386,165 @@
         transform: translateX(0);
     }
 
-    @media (max-width: 768px) {
-        .stats-strip { display: none; }
-        .about-section { grid-template-columns: 1fr; gap: 40px; }
-        .about-visual { display: none; }
-        .features-grid { grid-template-columns: 1fr; }
-        .hero-content { padding: 0 5vw 10vh; }
-    }
+   /* ===========================
+   Laptop Besar
+=========================== */
+
+@media (min-width:1200px){
+
+.hero-section{
+    height:100vh;
+}
+
+.hero-bg{
+    object-position:center center;
+}
+
+}
+
+
+/* ===========================
+   Laptop
+=========================== */
+
+@media (max-width:1199px){
+
+.hero-section{
+    height:90vh;
+}
+
+.hero-bg{
+    object-position:center center;
+}
+
+.hero-content{
+    padding:0 6vw 8vh;
+}
+
+}
+
+
+/* ===========================
+   Tablet
+=========================== */
+
+@media (max-width:992px){
+
+.hero-section{
+    height:80vh;
+}
+
+.hero-bg{
+    object-position:center;
+}
+
+.hero-content{
+    padding:0 6vw 8vh;
+}
+
+.hero-title{
+    font-size:clamp(3rem,7vw,5rem);
+}
+
+.stats-strip{
+    display:none;
+}
+
+.about-section{
+    grid-template-columns:1fr;
+    gap:50px;
+}
+
+.about-visual{
+    display:none;
+}
+
+.features-grid{
+    grid-template-columns:1fr;
+}
+
+}
+
+
+/* ===========================
+   HP
+=========================== */
+
+@media (max-width:768px){
+
+.hero-section{
+    height:70vh;
+    margin-top:-70px;
+}
+
+.hero-bg{
+    object-position:center;
+}
+
+.hero-content{
+    justify-content:flex-end;
+    padding:0 20px 45px;
+}
+
+.hero-title{
+    font-size:clamp(2.5rem,10vw,4rem);
+}
+
+.hero-sub{
+    max-width:100%;
+    font-size:.95rem;
+}
+
+.hero-actions{
+    flex-direction:column;
+    width:100%;
+}
+
+.btn-primary-hero,
+.btn-ghost-hero{
+    width:100%;
+    text-align:center;
+}
+
+.stats-strip{
+    display:none;
+}
+
+}
+
+
+/* ===========================
+   HP Kecil
+=========================== */
+
+@media (max-width:480px){
+
+.hero-section{
+    height:65vh;
+}
+
+.hero-title{
+    font-size:2.4rem;
+}
+
+.hero-sub{
+    font-size:.85rem;
+}
+
+.hero-content{
+    padding:0 16px 35px;
+}
+
+}
 </style>
 
 <!-- ===== HERO ===== -->
 <section class="hero-section">
 
-    <img src="/images/ormawa.jpeg"
-         class="hero-bg"
-         alt="ORMAWA F.SAINTEK">
+    <img
+    src="{{ asset('images/ormawa.jpeg') }}"
+    class="hero-bg"
+    alt="ORMAWA F.SAINTEK">
 
     <div class="hero-overlay"></div>
 

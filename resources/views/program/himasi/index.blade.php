@@ -375,11 +375,11 @@ $timeline = [
                     'title' => 'Mystery Event'
                 ],
                 [
-                    'img' => 'KODE.jpeg',
+                    'img' => 'HITC.jpeg',
                     'title' => 'HIMASI Gathering'
                 ],
                 [
-                    'img' => 'HITC.jpeg',
+                    'img' => 'KODE.jpeg',
                     'title' => 'Workshop Digital'
                 ],
             ];

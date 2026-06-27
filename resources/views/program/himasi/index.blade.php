@@ -367,15 +367,15 @@ $timeline = [
                     'title' => 'Seminar IT'
                 ],
                 [
-                    'img' => 'kode.jpeg',
+                    'img' => 'KODE.jpeg',
                     'title' => 'Webinar Nasional'
                 ],
                 [
-                    'img' => 'seminar.jpeg',
+                    'img' => 'SEMINAR.jpeg',
                     'title' => 'Mystery Event'
                 ],
                 [
-                    'img' => 'kode.jpeg',
+                    'img' => 'KODE.jpeg',
                     'title' => 'HIMASI Gathering'
                 ],
                 [
